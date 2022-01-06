@@ -1,24 +1,29 @@
-# README
+#  Interaction of two APIs Rails-React, Backend-Frontend #
+Works together with [React API]( https://github.com/HarshBarash/React_API_wRails_API )
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+#  Clone the repository, run #
 
-* Ruby version
+```ruby
+$ rails s -p 3001
+```
 
-* System dependencies
+## Navigate to http://localhost:3001/: ##
 
-* Configuration
+# Set up the App* #
+(If you create it yourself)
 
-* Database creation
+```ruby
 
-* Database initialization
+$ rails new backend-api --api --database=postgresql -T
 
-* How to run the test suite
+$ cd backend-api/
 
-* Services (job queues, cache servers, search engines, etc.)
+$ rake db:create
 
-* Deployment instructions
+$ rails s -p 3001
+```
+## Navigate to http://localhost:3001/: ##
 
-* ...
+
+*Don't forget to follow the instructions for the [React API]( https://github.com/HarshBarash/React_API_wRails_API ) as well
