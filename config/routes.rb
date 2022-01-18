@@ -6,6 +6,14 @@ Rails.application.routes.draw do
         get '/jobs/:id' , to: 'jobs#show'
         patch '/jobs/:id', to: 'jobs#update'
         delete '/jobs/:id', to: 'jobs#destroy'
-      end
+
     end
+  end
+
+
+  scope :api, defaults: { format: :json } do
+    scope :v1 do
+      devise_for :users
+    end
+  end
 end
