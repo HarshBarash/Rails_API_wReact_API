@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
   namespace :api do
     namespace :v1 do
         get '/jobs', to: 'jobs#index'
@@ -7,6 +9,8 @@ Rails.application.routes.draw do
         patch '/jobs/:id', to: 'jobs#update'
         delete '/jobs/:id', to: 'jobs#destroy'
 
+        mount Rswag::Ui::Engine => "/api-docs"
+        mount Rswag::Api::Engine => "/api-docs"
     end
   end
 

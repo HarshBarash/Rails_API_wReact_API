@@ -7,32 +7,31 @@ module Api::V1
     end
 
     def show
-      @jobs = Job.find(params[:id])
-      render json: @jobs
+      @job = Job.find(params[:id])
+      render json: @job
     end
 
     def create
-      @jobs = Job.new(job_params)
-
-      if @jobs.save
-        render json: @jobs, status: :created
+      @job = Job.new(job_params)
+      if @job.save
+        render json: @job, status: :created
       else
-        render json: @jobs.errors, status: :unprocessable_entity
+        render json: @job.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      @jobs = Job.find(params[:id])
-      if @jobs.update(job_params)
-        render json: @jobs
+      @job = Job.find(params[:id])
+      if @job.update(job_params)
+        render json: @job
       else
-        render json: @jobs.errors, status: :unprocessable_entity
+        render json: @job.errors, status: :unprocessable_entity
       end
     end
 
     def destroy
-      @jobs = Job.find(params[:id])
-      @jobs.destroy
+      @job = Job.find(params[:id])
+      @job.destroy
     end
 
     ###############################################################

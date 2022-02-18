@@ -1,0 +1,104 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/jobs":
+    post:
+      summary: 'Create a Job '
+      tags:
+      - Jobs
+      parameters: []
+      responses:
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                company:
+                  type: string
+                position:
+                  type: integer
+                description:
+                  type: string
+              required:
+              - id
+              - company
+              - position
+              - description
+  "/api/v1/jobs/{id}":
+    delete:
+      summary: Destroy a Job
+      tags:
+      - Jobs
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: name found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  company:
+                    type: string
+                  position:
+                    type: integer
+                  description:
+                    type: string
+                required:
+                - id
+                - company
+                - position
+                - description
+    get:
+      summary: Retrieves a job
+      tags:
+      - Jobs
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: name found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  company:
+                    type: string
+                  position:
+                    type: integer
+                  description:
+                    type: string
+                required:
+                - id
+                - company
+                - position
+                - description
+        '404':
+          description: Job not found
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

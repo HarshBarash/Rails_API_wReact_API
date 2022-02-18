@@ -23,11 +23,18 @@ gem 'puma', '~> 4.1'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'devise'
 
+gem 'rswag'
+gem 'rswag-api'
+gem 'rswag-ui'
+gem 'rspec-rails'
+
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem "rspec-rails"
+  gem "rswag-specs"
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
