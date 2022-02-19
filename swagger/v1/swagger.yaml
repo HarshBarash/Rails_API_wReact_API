@@ -9,18 +9,58 @@ paths:
       summary: 'Create a Job '
       tags:
       - Jobs
-      parameters: []
+      parameters:
+      - name: job
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: job
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
+        '200':
+          description: successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company:
+                    type: string
+                  position:
+                    type: integer
+                  description:
+                    type: string
+                required:
+                - company
+                - position
+                - description
         '422':
           description: invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company:
+                    type: integer
+                  position:
+                    type: integer
+                  description:
+                    type: integer
+                required:
+                - company
+                - position
+                - description
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                id:
-                  type: integer
                 company:
                   type: string
                 position:
@@ -28,7 +68,6 @@ paths:
                 description:
                   type: string
               required:
-              - id
               - company
               - position
               - description
@@ -38,7 +77,7 @@ paths:
       tags:
       - Jobs
       parameters:
-      - name: id
+      - name: job
         in: path
         required: true
         schema:
@@ -51,8 +90,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: integer
                   company:
                     type: string
                   position:
@@ -60,7 +97,6 @@ paths:
                   description:
                     type: string
                 required:
-                - id
                 - company
                 - position
                 - description
@@ -69,7 +105,7 @@ paths:
       tags:
       - Jobs
       parameters:
-      - name: id
+      - name: job
         in: path
         required: true
         schema:
@@ -82,8 +118,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: integer
                   company:
                     type: string
                   position:
@@ -91,7 +125,6 @@ paths:
                   description:
                     type: string
                 required:
-                - id
                 - company
                 - position
                 - description

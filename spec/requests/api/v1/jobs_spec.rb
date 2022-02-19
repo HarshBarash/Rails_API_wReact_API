@@ -9,15 +9,43 @@ RSpec.describe "api/v1/jobs_controller", type: :request do
       parameter name: :job, in: :body, schema: {
         type: :object,
         properties: {
-          id: { type: :integer },
           company: { type: :string },
           position: { type: :integer },
           description: { type: :string },
         },
-        required: ["id", "company", "position", "description"],
+        required: ["company", "position", "description"],
       }
+
+      response '200', 'successful request' do
+        produces 'application/json'
+        parameter name: :job, :in => :path, :type => :string
+        let(:job) { Job.create(company: 'foo', position: 1, description: 'bar') }
+        schema type: :object,
+               properties: {
+                 company: { type: :string },
+                 position: { type: :integer },
+                 description: { type: :string }
+               },
+               required: %w[ company position description]
+
+        let(:job) { { company: "Ruby", position: 1, description: "Backend" } }
+
+        run_test!
+
+      end
+
       response '422', 'invalid request' do
-        let(:job) { { company: 'Evrone', position: 1, description: 'Intern' } }
+        produces 'application/json'
+        parameter name: :job, :in => :path, :type => :string
+        schema type: :object,
+               properties: {
+                 company: { type: :integer },
+                 position: { type: :integer },
+                 description: { type: :integer }
+               },
+               required: %w[ company position description]
+
+        let(:job) { { company: 1, position: 1, description: 1 } }
         run_test!
       end
     end
@@ -27,19 +55,18 @@ RSpec.describe "api/v1/jobs_controller", type: :request do
     delete "Destroy a Job" do
       tags 'Jobs'
       produces 'application/json'
-      parameter name: :id, :in => :path, :type => :string
+      parameter name: :job, :in => :path, :type => :string
 
       response '200', 'name found' do
         schema type: :object,
                properties: {
-                 id: { type: :integer, },
                  company: { type: :string },
                  position: { type: :integer },
                  description: { type: :string }
                },
-               required: %w[id company position description]
+               required: %w[ company position description]
 
-        let(:id) { Job.create(company: 'foo', position: 1, description: 'bar').id }
+        let(:job) { create(:job) }
         run_test!
       end
     end
@@ -49,17 +76,15 @@ RSpec.describe "api/v1/jobs_controller", type: :request do
     get 'Retrieves a job' do
       tags 'Jobs'
       produces 'application/json'
-      parameter name: :id, :in => :path, :type => :string
-
+      parameter name: :job, :in => :path, :type => :string
       response '200', 'name found' do
         schema type: :object,
                properties: {
-                 id: { type: :integer, },
                  company: { type: :string },
                  position: { type: :integer },
                  description: { type: :string }
                },
-               required: %w[id company position description]
+               required: %w[ company position description]
 
         let(:id) { Job.create(company: 'foo', position: 1, description: 'bar').id }
         run_test!
