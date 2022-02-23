@@ -1,11 +1,11 @@
-require "swagger_helper"
+require 'swagger_helper'
 
-RSpec.describe "api/v1/jobs_controller", type: :request do
+RSpec.describe 'api/v1/jobs_controller', type: :request do
 
-  path "/api/v1/jobs" do
-    post "Create a Job " do
-      tags "Jobs"
-      consumes "application/json"
+  path '/api/v1/jobs' do
+    post 'Create a Job ' do
+      tags 'Jobs'
+      consumes 'application/json'
       parameter name: :job, in: :body, schema: {
         type: :object,
         properties: {
@@ -13,46 +13,41 @@ RSpec.describe "api/v1/jobs_controller", type: :request do
           position: { type: :integer },
           description: { type: :string },
         },
-        required: ["company", "position", "description"],
+        required: ['company', 'position', 'description']
       }
 
       response '200', 'successful request' do
-        produces 'application/json'
-        parameter name: :job, :in => :path, :type => :string
-        let(:job) { Job.create(company: 'foo', position: 1, description: 'bar') }
         schema type: :object,
                properties: {
-                 company: { type: :string },
-                 position: { type: :integer },
-                 description: { type: :string }
-               },
-               required: %w[ company position description]
+                 id: { type: :integer },
+                 company: { type: :string, nullable: false }, # preferred syntax
+                 position: { type: :integer, nullable: false }, # preferred syntax
+                 description: { type: :description, nullable: false } # preferred syntax
+               }
 
-        let(:job) { { company: "Ruby", position: 1, description: "Backend" } }
-
+        let(:job) { { company: 'Ruby', position: 1, description: 'Backend' } }
         run_test!
-
       end
 
       response '422', 'invalid request' do
-        produces 'application/json'
-        parameter name: :job, :in => :path, :type => :string
         schema type: :object,
                properties: {
-                 company: { type: :integer },
-                 position: { type: :integer },
-                 description: { type: :integer }
-               },
-               required: %w[ company position description]
+                 company: { type: :array,
+                            items: { type: :string } },
+                 description: { type: :array,
+                                items: { type: :string } },
+                 position: { type: :array,
+                             items: { type: :string } }, nullable: false
+               }
 
-        let(:job) { { company: 1, position: 1, description: 1 } }
+        let(:job) { { company: 'Compnb', position: "1", description: 'Descrr' } }
         run_test!
       end
     end
   end
 
   path '/api/v1/jobs/{id}' do
-    delete "Destroy a Job" do
+    delete 'Destroy a Job' do
       tags 'Jobs'
       produces 'application/json'
       parameter name: :job, :in => :path, :type => :string
