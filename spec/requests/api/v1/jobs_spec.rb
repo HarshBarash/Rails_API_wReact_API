@@ -13,10 +13,10 @@ RSpec.describe 'api/v1/jobs_controller', type: :request do
           position: { type: :integer },
           description: { type: :string },
         },
-        required: ['company', 'position', 'description']
+        required: %i[company position description]
       }
 
-      response '200', 'successful request' do
+      response '201', 'Job created' do
         schema type: :object,
                properties: {
                  id: { type: :integer },
@@ -47,21 +47,25 @@ RSpec.describe 'api/v1/jobs_controller', type: :request do
   end
 
   path '/api/v1/jobs/{id}' do
-    delete 'Destroy a Job' do
+    delete 'Destroy a job' do
       tags 'Jobs'
       produces 'application/json'
-      parameter name: :job, :in => :path, :type => :string
+      parameter name: 'id', :in => :path, :type => :string
 
-      response '200', 'name found' do
+      response '204', 'Job destroyed' do
         schema type: :object,
                properties: {
                  company: { type: :string },
                  position: { type: :integer },
                  description: { type: :string }
                },
-               required: %w[ company position description]
+               required: %i[company position description]
 
         let(:job) { create(:job) }
+        run_test!
+      end
+      response '404', 'Job not found' do
+        let(:id) { 'invalid' }
         run_test!
       end
     end
@@ -71,15 +75,16 @@ RSpec.describe 'api/v1/jobs_controller', type: :request do
     get 'Retrieves a job' do
       tags 'Jobs'
       produces 'application/json'
-      parameter name: :job, :in => :path, :type => :string
-      response '200', 'name found' do
+      parameter name: 'id', :in => :path, :type => :string
+      response '200', 'Job found' do
         schema type: :object,
                properties: {
+                 id: {type: :integer},
                  company: { type: :string },
                  position: { type: :integer },
                  description: { type: :string }
                },
-               required: %w[ company position description]
+               required: %i[company position description]
 
         let(:id) { Job.create(company: 'foo', position: 1, description: 'bar').id }
         run_test!
