@@ -11,8 +11,8 @@ paths:
       - Jobs
       parameters: []
       responses:
-        '200':
-          description: successful request
+        '201':
+          description: Job created
         '422':
           description: invalid request
       requestBody:
@@ -33,46 +33,18 @@ paths:
               - description
   "/api/v1/jobs/{id}":
     delete:
-      summary: Destroy a Job
+      summary: Destroy a job
       tags:
       - Jobs
       parameters:
-      - name: job
+      - name: id
         in: path
         required: true
         schema:
           type: string
       responses:
-        '200':
-          description: name found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  company:
-                    type: string
-                  position:
-                    type: integer
-                  description:
-                    type: string
-                required:
-                - company
-                - position
-                - description
-    get:
-      summary: Retrieves a job
-      tags:
-      - Jobs
-      parameters:
-      - name: job
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: name found
+        '204':
+          description: Job destroyed
           content:
             application/json:
               schema:
@@ -90,8 +62,40 @@ paths:
                 - description
         '404':
           description: Job not found
+    get:
+      summary: Retrieves a job
+      tags:
+      - Jobs
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Job found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  company:
+                    type: string
+                  position:
+                    type: integer
+                  description:
+                    type: string
+                required:
+                - company
+                - position
+                - description
+        '404':
+          description: Job not found
 servers:
-- url: https://{defaultHost}
+- url: http://{defaultHost}
   variables:
     defaultHost:
-      default: www.example.com
+      default: localhost:3001
